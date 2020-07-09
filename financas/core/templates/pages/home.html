@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <div class="col-8 m-auto home-div">
+        <div id="saldo"></div>
+        <div class="values">
+            <p class="receitas">Receitas R$ {{ receita }}</p>
+            <p class="despesas">Despesas R$ {{ despesa }}</p>
+        </div>
+
+        <h2>Transações</h2>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages%}
+                    <li {% if message.tags %}class="alert alert-{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="transactions">
+
+            {% for transacao in transacoes %}
+                <h4 class="date-transactions">{{ transacao.data }}</h4>
+
+                {% if transacao.status == "nao_pago" and transacao.tipo == "receita" %}
+                    <div class="row transaction-item">
+                        <div class="col-10 item-div item-receita">
+                            <p>{{ transacao.descricao }}</p>
+                            <p class="item-valor">{{ transacao.valor }}</p> 
+                        </div>
+                        <div class="col-2 item-edit">
+                            <a href="delete/{{transacao.id}}"><span><i class="iconify icon-delete" data-icon="ic:baseline-delete-forever" data-inline="false"></i></span></a>
+                            <a href="edit/{{transacao.id}}"><span><i class="iconify icon-edit" data-icon="fa-solid:edit" data-inline="false"></i></span></a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if transacao.status == "nao_pago" and transacao.tipo == "despesa" %}
+                    <div class="row transaction-item">
+                        <div class="col-10 item-div item-despesa">
+                            <p>{{ transacao.descricao }}</p>
+                            <p class="item-valor">{{ transacao.valor }}</p> 
+                        </div>
+                        <div class="col-2 item-edit">
+                            <a href="delete/{{transacao.id}}"><span><i class="iconify icon-delete" data-icon="ic:baseline-delete-forever" data-inline="false"></i></span></a>
+                            <a href="edit/{{transacao.id}}"><span><i class="iconify icon-edit" data-icon="fa-solid:edit" data-inline="false"></i></span></a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if transacao.status == "pago" and transacao.tipo == "receita" %}
+                    <div class="row transaction-item">
+                        <div class="col-10 item-div item-pago-receita">
+                            <p>{{ transacao.descricao }}</p>
+                            <p class="item-valor">{{ transacao.valor }}</p> 
+                        </div>
+                        <div class="col-2 item-edit">
+                            <a href="delete/{{transacao.id}}"><span><i class="iconify icon-delete" data-icon="ic:baseline-delete-forever" data-inline="false"></i></span></a>
+                            <a href="edit/{{transacao.id}}"><span><i class="iconify icon-edit" data-icon="fa-solid:edit" data-inline="false"></i></span></a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {% if transacao.status == "pago" and transacao.tipo == "despesa" %}
+                    <div class="row transaction-item">
+                        <div class="col-10 item-div item-pago-despesa">
+                            <p>{{ transacao.descricao }}</p>
+                            <p class="item-valor">{{ transacao.valor }}</p> 
+                        </div>
+                        <div class="col-2 item-edit">
+                            <a href="delete/{{transacao.id}}"><span><i class="iconify icon-delete" data-icon="ic:baseline-delete-forever" data-inline="false"></i></span></a>
+                            <a href="edit/{{transacao.id}}"><span><i class="iconify icon-edit" data-icon="fa-solid:edit" data-inline="false"></i></span></a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <a id="add-link" href="transaction/">
+                <button type="button" class="btn btn-primary btn-lg">Adicionar Transação</button>
+            </a>
+            
+        
+        </div>
+          
+    </div>
+{% endblock %}
